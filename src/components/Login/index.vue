@@ -1,7 +1,7 @@
 <template>
   <div class="login">
     <div
-      class="modal fade show"
+      class="modal fade "
       id="m-login"
       tabindex="-1"
       role="dialog"
@@ -33,6 +33,7 @@
                   name="email"
                   aria-describedby="emailHelp"
                   placeholder="Enter email"
+                  v-model="email"
                 />
                 <small id="emailHelp" class="form-text text-muted"
                   >We'll never share your email with anyone else.</small
@@ -46,6 +47,7 @@
                   id="password"
                   name="password"
                   placeholder="Password"
+                  v-model="password"
                 />
               </div>
 
@@ -75,6 +77,8 @@
 </template>
 
 <script>
+import * as types from "../../store/modules/auth/constants";
+
 export default {
   data() {
     return {
@@ -85,6 +89,14 @@ export default {
   methods: {
     handleLogin() {
       console.log("handleLogin");
+      // console.log(this.$store);
+
+      const authUser = {
+        email: this.email,
+        password: this.password,
+      };
+
+      this.$store.dispatch(types.A_AUTH_LOGIN, authUser);
     },
   },
 };

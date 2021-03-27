@@ -20,7 +20,7 @@
 export default {
   mounted() {
     // this.$refs["mlogin"]
-    console.log(this.$refs);
+    // console.log(this.$refs);
     this.$refs.mlogin.click();
   },
   methods: {

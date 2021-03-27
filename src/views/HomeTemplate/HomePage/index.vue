@@ -1,11 +1,17 @@
 <template>
   <div class="HomePage">
     <h1>HomePage</h1>
+    <LifeCycleHook />
   </div>
 </template>
 
 <script>
-export default {};
+import LifeCycleHook from "../../../components/LifeCycleHook";
+export default {
+  components: {
+    LifeCycleHook,
+  },
+};
 </script>
 
 <style>

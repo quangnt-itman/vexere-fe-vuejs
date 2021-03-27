@@ -1,3 +1,4 @@
+
 <template>
   <nav class="navbar navbar-expand-sm navbar-dark bg-primary">
     <router-link class="navbar-brand" to="/">
@@ -44,7 +45,7 @@
       </form> -->
 
       <div class="d-flex justify-content-between align-items-center">
-        <div class="auth-btn mx-sm-4">
+        <div class="auth-btn mx-sm-4" v-if="!user">
           <button
             class="btn btn-outline-light bg-transparent my-2 my-sm-0 mx-sm-1"
             type="submit"
@@ -65,15 +66,28 @@
           <Login />
         </div>
 
-        <div class="logined-user btn-outline-light border rounded-circle">
-          <router-link to="/admin">
-            <img
-              src="../../assets/logo.png"
-              width="30px"
-              height="30px"
-              alt="user"
-            />
-          </router-link>
+        <div class="d-flex align-items-center" v-else>
+          <button
+            class="btn btn-outline-light my-2 my-sm-0 mx-sm-1"
+            type="submit"
+            data-toggle="modal"
+            data-target="#m-logout"
+            @click="handleLogout"
+          >
+            Log out
+          </button>
+          <span
+            class="logined-user btn-outline-light border rounded-circle mx-sm-2"
+          >
+            <router-link to="/admin">
+              <img
+                src="../../assets/logo.png"
+                width="30px"
+                height="30px"
+                alt="user"
+              />
+            </router-link>
+          </span>
         </div>
       </div>
     </div>
@@ -82,9 +96,24 @@
 
 <script>
 import Login from "../Login";
+import * as types from "../../store/modules/auth/constants";
+
 export default {
   components: {
     Login,
+  },
+  data() {
+    return {};
+  },
+  computed: {
+    user() {
+      return this.$store.state.auth.user;
+    },
+  },
+  methods: {
+    handleLogout() {
+      this.$store.dispatch(types.A_AUTH_LOGOUT);
+    },
   },
 };
 </script>
