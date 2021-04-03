@@ -14,18 +14,21 @@
     "jquery": "^3.6.0",
     "jwt-decode": "^3.1.2",
     "popper.js": "^1.16.1",
+    "register-service-worker": "^1.7.1",
+    "toastr": "^2.1.4",
     "vue": "^2.6.11",
     "vue-router": "^3.2.0",
-    "vuex": "^3.6.2"
+    "vuelidate": "^0.7.6",
+    "vuex": "^3.4.0"
   },
   "devDependencies": {
     "@vue/cli-plugin-babel": "~4.5.0",
-    "@vue/cli-plugin-eslint": "~4.5.0",
+    "@vue/cli-plugin-pwa": "~4.5.0",
     "@vue/cli-plugin-router": "~4.5.0",
+    "@vue/cli-plugin-vuex": "~4.5.0",
     "@vue/cli-service": "~4.5.0",
-    "babel-eslint": "^10.1.0",
-    "eslint": "^6.7.2",
-    "eslint-plugin-vue": "^6.2.2",
+    "sass": "^1.26.5",
+    "sass-loader": "^8.0.2",
     "vue-template-compiler": "^2.6.11"
   },
   "eslintConfig": {
@@ -46,5 +49,7 @@
     "> 1%",
     "last 2 versions",
     "not dead"
-  ]
+  ],
+  "_id": "vexere-fe-vuejs@0.1.0",
+  "readme": "ERROR: No README data found!"
 }

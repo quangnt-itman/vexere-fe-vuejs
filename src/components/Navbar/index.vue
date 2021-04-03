@@ -49,6 +49,8 @@
           <button
             class="btn btn-outline-light bg-transparent my-2 my-sm-0 mx-sm-1"
             type="submit"
+            data-toggle="modal"
+            data-target="#m-signup"
           >
             Sign up
           </button>
@@ -64,14 +66,15 @@
           </button>
           <!-- Modal -->
           <Login />
+          <ModalSignUp />
         </div>
 
         <div class="d-flex align-items-center" v-else>
           <button
             class="btn btn-outline-light my-2 my-sm-0 mx-sm-1"
             type="submit"
-            data-toggle="modal"
-            data-target="#m-logout"
+            data-toggle=""
+            data-target=""
             @click="handleLogout"
           >
             Log out
@@ -96,11 +99,15 @@
 
 <script>
 import Login from "../Login";
+import ModalSignUp from "../ModalSignUp";
 import * as types from "../../store/modules/auth/constants";
+
+import $ from "jquery";
 
 export default {
   components: {
     Login,
+    ModalSignUp,
   },
   data() {
     return {};
@@ -112,11 +119,14 @@ export default {
   },
   methods: {
     handleLogout() {
+      $("#m-signup").modal("hide");
       this.$store.dispatch(types.A_AUTH_LOGOUT);
     },
   },
 };
 </script>
 
-<style>
+<style scoped>
+/* .auth-btn {
+} */
 </style>

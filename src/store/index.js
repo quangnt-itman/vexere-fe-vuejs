@@ -2,6 +2,7 @@ import Vue from "vue";
 import Vuex from "vuex";
 
 import auth from './modules/auth';
+import user from './modules/user';
 
 Vue.use( Vuex );
 
@@ -10,8 +11,9 @@ Vue.use( Vuex );
 //     auth
 //   }
 // } );
-export default  new Vuex.Store( {
+export default new Vuex.Store( {
   modules: {
-    auth
+    auth,
+    user
   }
 } );

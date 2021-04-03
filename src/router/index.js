@@ -1,6 +1,11 @@
 import Vue from 'vue';
 import VueRouter from 'vue-router';
 
+import jwtDecode  from "jwt-decode";
+import Toastr from "toastr/build/toastr.min.js";
+import $ from "jquery";
+
+
 import HomeTemplate from '../views/HomeTemplate';
 import AdminTemplate from '../views/AdminTemplate';
 import Auth from '../views/AuthPage';
@@ -38,7 +43,49 @@ const routes = [
       {
         path: '/admin',
         name: 'DashboardPage',
-        component: () => import( '../views/AdminTemplate/DashboardPage' )
+        component: () => import( '../views/AdminTemplate/DashboardPage' ),
+        beforeEnter(to, from, next){
+          if(localStorage.getItem("token")){
+            try{
+              const decode = jwtDecode(localStorage.getItem("token"));
+              if(decode.userType.toLowerCase() === "admin".toLowerCase()){
+                next();
+              }else{
+                throw new Error();
+              }
+            } catch(error){
+              localStorage.removeItem("token");
+              Toastr.warning(
+                "<button type='button' class='btn btn-secondary mr-2' id='closeToastr' >Close</button> <button type='button' class='btn btn-success' id='dispatchHandleRouter'>Yes</button>",
+                "You need to login?",
+                {
+                  closeButton: true,
+                  timeOut: 0,
+                  positionClass: "toast-top-center",
+                  tapToDismiss: false,
+                  onShown: function() {
+                    $("#dispatchHandleRouter").click(function() {
+                      Toastr.remove();
+                      next("/admin/login");
+                    });
+                    $("#closeToastr").click(function() {
+                      Toastr.remove();
+                    });
+                  }
+                }
+              );
+            }
+          }
+          else{
+            router.push('/admin/login')
+          }
+        }
+      },
+      {
+        path: '/admin/login',
+        name: 'AdminLogin',
+        component: () => import( "./../views/AdminTemplate/LoginAdminPage" ),
+
       }
     ]
   },

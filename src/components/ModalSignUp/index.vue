@@ -1,17 +1,20 @@
 <template>
-  <div class="login">
+  <div class="modal-sign-up">
+    <!-- <template v-if="true">
+      <Loader />
+    </template> -->
     <div
       class="modal fade"
-      id="m-login"
+      id="m-signup"
       tabindex="-1"
       role="dialog"
-      aria-labelledby="m-loginLabel"
+      aria-labelledby="m-signupLabel"
       aria-hidden="true"
     >
       <div class="modal-dialog" role="document">
         <div class="modal-content">
           <div class="modal-header">
-            <h5 class="modal-title text-primary" id="m-loginLabel">Log in</h5>
+            <h5 class="modal-title text-primary" id="m-signupLabel">Sign Up</h5>
             <button
               type="button"
               class="close"
@@ -22,7 +25,7 @@
             </button>
           </div>
           <div class="modal-body">
-            <form @submit.prevent="handleLogin" action="POST" ref="formLogin">
+            <form @submit.prevent="handleSignUp" action="POST" ref="formSignUp">
               <!--  -->
               <div class="form-group">
                 <label for="email">Email address</label>
@@ -61,18 +64,42 @@
                   required
                   @blur="$v.password.$touch()"
                 />
+                <span
+                  class="text-danger ml-1"
+                  v-if="$v.password.$dirty && !$v.password.required"
+                  >(*) password is not empty</span
+                >
+                <span
+                  class="text-danger ml-1"
+                  v-if="$v.password.$dirty && !$v.password.minLength"
+                  >(*) password much be more
+                  {{ $v.password.$params.minLength.min }} character</span
+                >
               </div>
-              <span
-                class="text-danger ml-1"
-                v-if="$v.password.$dirty && !$v.password.required"
-                >(*) password is not empty</span
-              >
-              <span
-                class="text-danger ml-1"
-                v-if="$v.password.$dirty && !$v.password.minLength"
-                >(*) password much be more
-                {{ $v.password.$params.minLength.min }} character</span
-              >
+              <div class="form-group">
+                <label for="fullName">Full Name</label>
+                <input
+                  type="text"
+                  class="form-control"
+                  id="fullName"
+                  name="fullName"
+                  placeholder="fullName"
+                  v-model="fullName"
+                  required
+                  @blur="$v.fullName.$touch()"
+                />
+                <span
+                  class="text-danger ml-1"
+                  v-if="$v.fullName.$dirty && !$v.fullName.required"
+                  >(*) fullName is not empty</span
+                >
+                <span
+                  class="text-danger ml-1"
+                  v-if="$v.fullName.$dirty && !$v.fullName.minLength"
+                  >(*) fullName much be more
+                  {{ $v.fullName.$params.minLength.min }} character</span
+                >
+              </div>
 
               <div class="modal-footer">
                 <button
@@ -84,11 +111,11 @@
                 </button>
                 <button
                   type="submit"
-                  name="login"
-                  id="login"
+                  name="signup"
+                  id="signup"
                   class="btn btn-primary"
                 >
-                  Log in
+                  Sign Up
                 </button>
               </div>
             </form>
@@ -100,37 +127,43 @@
 </template>
 
 <script>
-import * as types from "../../store/modules/auth/constants";
 import { required, email, minLength } from "vuelidate/lib/validators";
+import * as types from "../../store/modules/user/constants";
 import $ from "jquery";
 
+// import Loader from "./../Loader";
+
 export default {
+  // components: {
+  //   Loader,
+  // },
   data() {
     return {
       email: "",
       password: "",
+      fullName: "",
     };
   },
+  computed: {
+    loading() {
+      return this.$store.state.user.loading;
+    },
+  },
   methods: {
-    handleLogin() {
-      console.log("handleLogin");
-      // console.log(this.$store);
+    handleSignUp() {
+      console.log("handleSignUp");
 
-      const authUser = {
+      const SignUpUser = {
         email: this.email,
         password: this.password,
+        fullName: this.fullName,
       };
 
-      console.log(this);
-
       if (!this.$v.$invalid) {
-        this.$store.dispatch(types.A_AUTH_LOGIN, authUser);
-        $("#m-login").modal("hide");
-        this.$refs.formLogin.reset();
+        this.$store.dispatch(types.A_USER_CREATE, SignUpUser);
+        $("#m-signup").modal("hide");
+        this.$refs.formSignUp.reset();
       }
-    },
-    clearModal() {
-      this.$refs.formLogin.reset();
     },
   },
   validations: {
@@ -139,6 +172,10 @@ export default {
       email,
     },
     password: {
+      required,
+      minLength: minLength(4),
+    },
+    fullName: {
       required,
       minLength: minLength(4),
     },
